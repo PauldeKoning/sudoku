@@ -7,9 +7,10 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy-files",
     "start": "npm run build && node dist/index.js",
-    "dev": "npx nodemon"
+    "dev": "npx nodemon",
+    "copy-files": "cp -r ./src/puzzles/ ./dist/"
   },
   "repository": {
     "type": "git",
