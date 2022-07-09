@@ -1,0 +1,25 @@
+{
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "typescript": "^4.7.4"
+  },
+  "name": "sudoku",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "dev": "npx nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauldeKoning/sudoku.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PauldeKoning/sudoku/issues"
+  },
+  "homepage": "https://github.com/PauldeKoning/sudoku#readme",
+  "description": ""
+}
