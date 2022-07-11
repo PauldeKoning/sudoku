@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import { CellInfo } from '../model/puzzle/puzzle';
+import { CellInfo } from '../model/puzzle/puzzle.item';
 
 export default async function readFile(path: string): Promise<CellInfo[][]> {
   const str: string = await fs.readFile(path, 'utf-8');

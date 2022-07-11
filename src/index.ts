@@ -1,4 +1,4 @@
-import { Box, Cell } from './model/puzzle/puzzle';
+import { Box, Cell } from './model/puzzle/puzzle.item';
 import readFile from './util/file.reader';
 
 console.log('Hello World');
