@@ -1,18 +1,11 @@
-import { Box, Cell } from './model/puzzle/puzzle.item';
-import readFile from './util/file.reader';
+import PuzzleFactory from './model/puzzle.factory';
 
 console.log('Hello World');
 
 (async () => {
-  const file = await readFile('dist/puzzles/puzzle.9x9');
+  const factory = new PuzzleFactory();
 
-  const puzzle = new Box();
-
-  file.forEach(b => {
-    const box = new Box();
-    b.forEach(c => box.add(new Cell(c.x, c.y, c.value)));
-    puzzle.add(box);
-  });
+  const puzzle = await factory.createPuzzle('dist/puzzles/puzzle.4x4');
 
   console.log('Puzzle created');
 })();
