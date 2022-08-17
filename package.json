@@ -6,7 +6,7 @@
     "typescript": "^4.7.4"
   },
   "name": "@pauldekoning/sudoku",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && npm run copy-files",
