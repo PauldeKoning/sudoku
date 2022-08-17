@@ -7,10 +7,10 @@ import { SamuraiPuzzle } from './puzzle/puzzle.samurai';
 
 export default class PuzzleFactory {
   private static readonly PUZZLE_TYPES = ['4x4', '6x6', '9x9', 'jigsaw', 'samurai'];
-  private instances: Map<string, { new(puzzle: string): Puzzle }>;
+  private instances: Map<string, { new (puzzle: string): Puzzle }>;
 
   constructor() {
-    this.instances = new Map<string, { new(puzzle: string): Puzzle }>();
+    this.instances = new Map<string, { new (puzzle: string): Puzzle }>();
     this.instances.set('4x4', FourxFourPuzzle);
     this.instances.set('6x6', SixxSixPuzzle);
     this.instances.set('9x9', NinexNinePuzzle);

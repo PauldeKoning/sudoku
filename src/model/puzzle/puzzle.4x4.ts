@@ -1,11 +1,11 @@
 import { Puzzle } from '../puzzle.factory';
 import { Box } from './puzzle.item';
-import parseBasicPuzzle from '../../util/parse.basic.puzzle';
+import PuzzleUtil from '../../util/parse.util';
 
 export class FourxFourPuzzle implements Puzzle {
   private puzzle: Box;
 
   constructor(puzzleString: string) {
-    this.puzzle = parseBasicPuzzle(puzzleString, 4,  2);
+    this.puzzle = PuzzleUtil.parseLinearPuzzle(puzzleString, 4, 2);
   }
 }

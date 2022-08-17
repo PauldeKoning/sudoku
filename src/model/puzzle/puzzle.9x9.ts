@@ -1,11 +1,11 @@
-import { Box, Cell, CellInfo } from './puzzle.item';
+import { Box } from './puzzle.item';
 import { Puzzle } from '../puzzle.factory';
-import parseBasicPuzzle from '../../util/parse.basic.puzzle';
+import PuzzleUtil from '../../util/parse.util';
 
 export class NinexNinePuzzle implements Puzzle {
   private puzzle: Box;
 
   constructor(puzzleString: string) {
-    this.puzzle = parseBasicPuzzle(puzzleString, 9, 3);
+    this.puzzle = PuzzleUtil.parseLinearPuzzle(puzzleString, 9, 3);
   }
 }
