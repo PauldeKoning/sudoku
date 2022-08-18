@@ -9,10 +9,9 @@
   "version": "1.0.4",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && npm run copy-files",
+    "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "npx nodemon",
-    "copy-files": "shx cp -r ./src/puzzles/ ./dist/",
     "prepublish": "npm run build"
   },
   "repository": "https://github.com/PauldeKoning/sudoku.git",

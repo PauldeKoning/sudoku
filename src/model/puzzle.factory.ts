@@ -1,9 +1,9 @@
-import readFile from '../util/file.reader';
 import { FourxFourPuzzle } from './puzzle/puzzle.4x4';
 import { SixxSixPuzzle } from './puzzle/puzzle.6x6';
 import { NinexNinePuzzle } from './puzzle/puzzle.9x9';
 import { JigsawPuzzle } from './puzzle/puzzle.jigsaw';
 import { SamuraiPuzzle } from './puzzle/puzzle.samurai';
+import { PuzzleStrings } from '../puzzles/puzzle.strings';
 
 export default class PuzzleFactory {
   private static readonly PUZZLE_TYPES = ['4x4', '6x6', '9x9', 'jigsaw', 'samurai'];
@@ -18,14 +18,18 @@ export default class PuzzleFactory {
     this.instances.set('samurai', SamuraiPuzzle);
   }
 
-  async createPuzzle(path: string): Promise<Puzzle> {
-    const puzzleType = path.split('.').at(-1);
+  async createPuzzle(name: string): Promise<Puzzle> {
+    const puzzleType = name.split('.').at(-1);
 
     if (!puzzleType || !PuzzleFactory.PUZZLE_TYPES.includes(puzzleType)) {
       throw Error('Invalid puzzle type');
     }
 
-    return new (this.instances.get(puzzleType)!)(await readFile(path));
+    if (!PuzzleStrings[name]) {
+      throw Error('Puzzle not found');
+    }
+
+    return new (this.instances.get(puzzleType)!)(PuzzleStrings[name]);
   }
 }
 
