@@ -9,7 +9,7 @@
   "version": "1.0.4",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "shx rm -rf dist && tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "npx nodemon",
     "prepublish": "npm run build"

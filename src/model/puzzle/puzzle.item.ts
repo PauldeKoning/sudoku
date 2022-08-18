@@ -6,6 +6,8 @@ export interface CellInfo {
 
 export interface PuzzleItem {
   setCell(x: number, y: number, value: number): void;
+  // -1 means cell is not found
+  getCell(x: number, y: number): number;
   changeCellState(state: CellState): void;
 }
 
@@ -97,6 +99,15 @@ export class Box implements PuzzleItem {
       const child = this.children[i];
       child.setCell(x, y, value);
     }
+  }
+
+  getCell(x: number, y: number): number {
+    for (let child of this.children) {
+      const cell = child.getCell(x, y);
+      if (cell !== -1) return cell;
+    }
+
+    return -1;
   }
 
   changeCellState(state: CellState) {

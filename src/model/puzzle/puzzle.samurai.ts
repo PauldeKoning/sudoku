@@ -1,5 +1,5 @@
 import { Puzzle } from '../puzzle.factory';
-import { Box } from './puzzle.item';
+import { Box, PuzzleItem } from './puzzle.item';
 import PuzzleUtil from '../../util/parse.util';
 
 export class SamuraiPuzzle implements Puzzle {
@@ -45,5 +45,13 @@ export class SamuraiPuzzle implements Puzzle {
     if (!this.offsetKeysY.has(i)) throw new Error();
 
     return this.offsetKeysY.get(i)!;
+  }
+
+  getPuzzle(): PuzzleItem {
+    return this.puzzle;
+  }
+
+  getBounds(): [number, number] {
+    return [21, 21];
   }
 }
