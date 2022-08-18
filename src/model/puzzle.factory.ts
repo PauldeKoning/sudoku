@@ -18,7 +18,7 @@ export default class PuzzleFactory {
     this.instances.set('samurai', SamuraiPuzzle);
   }
 
-  async createPuzzle(name: string): Promise<Puzzle> {
+  createPuzzle(name: string): Puzzle {
     const puzzleType = name.split('.').at(-1);
 
     if (!puzzleType || !PuzzleFactory.PUZZLE_TYPES.includes(puzzleType)) {
