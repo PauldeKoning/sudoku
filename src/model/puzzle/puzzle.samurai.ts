@@ -1,9 +1,9 @@
 import { Puzzle } from '../puzzle.factory';
 import { Box, PuzzleItem } from './puzzle.item';
-import PuzzleUtil from '../../util/parse.util';
+import PuzzleUtil from '../../util/puzzle.parse.util';
 
 export class SamuraiPuzzle implements Puzzle {
-  private puzzle: Box;
+  private readonly puzzle: Box;
   private offsetKeysX: Map<number, number>;
   private offsetKeysY: Map<number, number>;
 

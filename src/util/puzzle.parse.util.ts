@@ -8,6 +8,12 @@ export default class PuzzleUtil {
     offsetX: number = 0,
     offsetY: number = 0
   ): Box {
+    if (puzzleString.length % cellAmountPerRow !== 0) {
+      throw Error(
+        'puzzleString length is incorrect. Should be puzzleString.length % cellAmountPerRow'
+      );
+    }
+
     const boxes: CellInfo[][] = [];
 
     for (let i = 0; i < puzzleString.length; i++) {
@@ -19,7 +25,7 @@ export default class PuzzleUtil {
 
       const boxNumber = boxRow * boxPerRow + boxColumn;
 
-      PuzzleUtil.addBoxToBoxes(
+      PuzzleUtil.addCellToBoxes(
         boxes,
         boxNumber,
         cellColumn + offsetX,
@@ -33,6 +39,12 @@ export default class PuzzleUtil {
 
   static parseJigsawPuzzle(jigsawString: string) {
     const cells = jigsawString.split('=');
+
+    if (cells.length !== 82) {
+      throw Error('jigsawString should have 82 cells');
+    }
+
+    // Remove first as this is the jigsaw version
     cells.shift();
 
     const boxes: CellInfo[][] = [];
@@ -44,7 +56,7 @@ export default class PuzzleUtil {
 
       const { cellColumn, cellRow } = PuzzleUtil.calculateCellInfo(i, 9, 3);
 
-      PuzzleUtil.addBoxToBoxes(boxes, subgrid, cellColumn, cellRow, value);
+      PuzzleUtil.addCellToBoxes(boxes, subgrid, cellColumn, cellRow, value);
     });
 
     return PuzzleUtil.createPuzzle(boxes);
@@ -63,7 +75,7 @@ export default class PuzzleUtil {
     };
   }
 
-  private static addBoxToBoxes(
+  private static addCellToBoxes(
     boxes: CellInfo[][],
     boxNumber: number,
     x: number,

@@ -1,6 +1,6 @@
 import { Puzzle } from '../puzzle.factory';
 import { Box, PuzzleItem } from './puzzle.item';
-import PuzzleUtil from '../../util/parse.util';
+import PuzzleUtil from '../../util/puzzle.parse.util';
 
 export class SixxSixPuzzle implements Puzzle {
   private readonly puzzle: Box;
