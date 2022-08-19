@@ -1,5 +1,6 @@
-import { Puzzle } from '../puzzle.factory';
-import { CompositeCells, PuzzleItem } from './puzzle.item';
+import Puzzle from '../puzzle.interface';
+import PuzzleItem from '../puzzle.item.interface';
+import CompositeCells from '../cell.composite';
 import PuzzleUtil from '../../util/puzzle.parse.util';
 
 export class FourxFourPuzzle implements Puzzle {

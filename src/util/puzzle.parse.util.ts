@@ -1,4 +1,5 @@
-import { Cell, CompositeCells } from '../model/puzzle/puzzle.item';
+import CompositeCells from '../model/cell.composite';
+import Cell from '../model/cell';
 
 export default class PuzzleUtil {
   static parseLinearPuzzle(

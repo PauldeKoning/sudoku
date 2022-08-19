@@ -1,6 +1,7 @@
-import { Puzzle } from '../puzzle.factory';
-import { CompositeCells, PuzzleItem } from './puzzle.item';
 import PuzzleUtil from '../../util/puzzle.parse.util';
+import CompositeCells from '../cell.composite';
+import PuzzleItem from '../puzzle.item.interface';
+import Puzzle from '../puzzle.interface';
 
 export class SamuraiPuzzle implements Puzzle {
   private readonly puzzle: CompositeCells;

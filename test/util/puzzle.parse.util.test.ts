@@ -1,4 +1,4 @@
-import PuzzleUtil from '../src/util/puzzle.parse.util';
+import PuzzleUtil from '../../src/util/puzzle.parse.util';
 
 describe('Parse 4x4 puzzles', () => {
   it('Should parse a 4x4 puzzle, has correct positions', () => {

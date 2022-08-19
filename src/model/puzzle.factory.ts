@@ -4,7 +4,7 @@ import { NinexNinePuzzle } from './puzzle/puzzle.9x9';
 import { JigsawPuzzle } from './puzzle/puzzle.jigsaw';
 import { SamuraiPuzzle } from './puzzle/puzzle.samurai';
 import { PuzzleStrings } from '../puzzles/puzzle.strings';
-import { PuzzleItem } from './puzzle/puzzle.item';
+import Puzzle from './puzzle.interface';
 
 export default class PuzzleFactory {
   private static readonly PUZZLE_TYPES = ['4x4', '6x6', '9x9', 'jigsaw', 'samurai'];
@@ -32,9 +32,4 @@ export default class PuzzleFactory {
 
     return new (this.instances.get(puzzleType)!)(PuzzleStrings[name]);
   }
-}
-
-export interface Puzzle {
-  getPuzzle(): PuzzleItem;
-  getBounds(): [number, number];
 }
