@@ -1,4 +1,4 @@
-import { Box, Cell, CellInfo } from '../model/puzzle/puzzle.item';
+import { Cell, CompositeCells } from '../model/puzzle/puzzle.item';
 
 export default class PuzzleUtil {
   static parseLinearPuzzle(
@@ -7,14 +7,14 @@ export default class PuzzleUtil {
     boxWidth: number,
     offsetX: number = 0,
     offsetY: number = 0
-  ): Box {
+  ): CompositeCells {
     if (puzzleString.length % cellAmountPerRow !== 0) {
       throw Error(
         'puzzleString length is incorrect. Should be puzzleString.length % cellAmountPerRow'
       );
     }
 
-    const boxes: CellInfo[][] = [];
+    const compositeCells: CompositeCells = new CompositeCells();
 
     for (let i = 0; i < puzzleString.length; i++) {
       const { cellRow, boxPerRow, boxRow, cellColumn, boxColumn } = PuzzleUtil.calculateCellInfo(
@@ -25,8 +25,8 @@ export default class PuzzleUtil {
 
       const boxNumber = boxRow * boxPerRow + boxColumn;
 
-      PuzzleUtil.addCellToBoxes(
-        boxes,
+      PuzzleUtil.addCellToCompositeCells(
+        compositeCells,
         boxNumber,
         cellColumn + offsetX,
         cellRow + offsetY,
@@ -34,7 +34,9 @@ export default class PuzzleUtil {
       );
     }
 
-    return PuzzleUtil.createPuzzle(boxes);
+    PuzzleUtil.addRowsToBoxes(compositeCells, puzzleString, cellAmountPerRow);
+
+    return compositeCells;
   }
 
   static parseJigsawPuzzle(jigsawString: string) {
@@ -47,19 +49,47 @@ export default class PuzzleUtil {
     // Remove first as this is the jigsaw version
     cells.shift();
 
-    const boxes: CellInfo[][] = [];
-
+    const compositeCells: CompositeCells = new CompositeCells();
+    let valueString = '';
     cells.forEach((c, i) => {
+      if (!(c[0] === String(Number(c[0])) && c[2] === String(Number(c[2])))) {
+        throw Error('jigsawString is incorrect');
+      }
+
       const value = Number(c[0]);
       const subgrid = Number(c[2]);
-      // create box with value and box nr = subgrid
+
+      valueString += value;
 
       const { cellColumn, cellRow } = PuzzleUtil.calculateCellInfo(i, 9, 3);
 
-      PuzzleUtil.addCellToBoxes(boxes, subgrid, cellColumn, cellRow, value);
+      PuzzleUtil.addCellToCompositeCells(compositeCells, subgrid, cellColumn, cellRow, value);
     });
 
-    return PuzzleUtil.createPuzzle(boxes);
+    PuzzleUtil.addRowsToBoxes(compositeCells, valueString, 9);
+
+    return compositeCells;
+  }
+
+  private static addRowsToBoxes(
+    compositeCells: CompositeCells,
+    str: string,
+    cellAmountPerRow: number
+  ) {
+    for (let i = 0; i < str.length; i += cellAmountPerRow) {
+      const vertical: CompositeCells = new CompositeCells();
+      const horizontal: CompositeCells = new CompositeCells();
+
+      for (let x = 0; x < cellAmountPerRow; x++) {
+        const y = Math.floor(i / cellAmountPerRow);
+        const cell = compositeCells.getCell(x, y);
+        horizontal.add(cell ? cell : new Cell(x, y, Number(str[x + y * cellAmountPerRow])));
+        vertical.add(cell ? cell : new Cell(y, x, Number(str[y + x * cellAmountPerRow])));
+      }
+
+      compositeCells.add(vertical);
+      compositeCells.add(horizontal);
+    }
   }
 
   private static calculateCellInfo(i: number, cellAmountPerRow: number, boxWidth: number) {
@@ -75,31 +105,19 @@ export default class PuzzleUtil {
     };
   }
 
-  private static addCellToBoxes(
-    boxes: CellInfo[][],
+  private static addCellToCompositeCells(
+    compositeCells: CompositeCells,
     boxNumber: number,
     x: number,
     y: number,
     value: number
   ): void {
-    if (!boxes[boxNumber]) boxes[boxNumber] = [];
+    if (!compositeCells.getBox(boxNumber)) compositeCells.add(new CompositeCells());
 
-    boxes[boxNumber].push({
-      x,
-      y,
-      value
-    });
-  }
+    const cell = compositeCells.getCell(x, y);
 
-  private static createPuzzle(boxes: CellInfo[][]): Box {
-    const puzzle = new Box();
-
-    boxes.forEach((b) => {
-      const box = new Box();
-      b.forEach((c) => box.add(new Cell(c.x, c.y, c.value)));
-      puzzle.add(box);
-    });
-
-    return puzzle;
+    (compositeCells.getBox(boxNumber) as CompositeCells).add(
+      cell ? cell : new Cell(x, y, value, boxNumber)
+    );
   }
 }

@@ -1,9 +1,9 @@
 import { Puzzle } from '../puzzle.factory';
-import { Box, PuzzleItem } from './puzzle.item';
+import { CompositeCells, PuzzleItem } from './puzzle.item';
 import PuzzleUtil from '../../util/puzzle.parse.util';
 
 export class SamuraiPuzzle implements Puzzle {
-  private readonly puzzle: Box;
+  private readonly puzzle: CompositeCells;
   private offsetKeysX: Map<number, number>;
   private offsetKeysY: Map<number, number>;
 
@@ -26,7 +26,7 @@ export class SamuraiPuzzle implements Puzzle {
       [4, 12]
     ]);
 
-    const puzzle = new Box();
+    const puzzle = new CompositeCells();
     puzzleStrings
       .map((p, i) => PuzzleUtil.parseLinearPuzzle(p, 9, 3, this.getOffsetX(i), this.getOffsetY(i)))
       .forEach((p) => puzzle.add(p));

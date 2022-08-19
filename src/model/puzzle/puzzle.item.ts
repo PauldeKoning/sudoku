@@ -2,12 +2,14 @@ export interface CellInfo {
   x: number;
   y: number;
   value: number;
+  draftValues: Set<number>;
+  boxNr: number;
 }
 
 export interface PuzzleItem {
   setCell(x: number, y: number, value: number): void;
   // -1 means cell is not found
-  getCell(x: number, y: number): number;
+  getCell(x: number, y: number): Cell | undefined;
   changeCellState(state: CellState): void;
 }
 
@@ -17,23 +19,26 @@ export enum CellState {
 }
 
 export interface ICellState {
-  addNumber(num: number): void;
-  removeNumber(num: number): void;
+  setCell(num: number): void;
 }
 
 export class CellStateDraft implements ICellState {
-  cell: Cell;
+  private cell: Cell;
 
   constructor(cell: Cell) {
     this.cell = cell;
   }
 
-  addNumber(num: number): void {
-    this.cell.draftValues.add(num);
-  }
+  setCell(num: number): void {
+    if (this.cell.value !== 0) {
+      return;
+    }
 
-  removeNumber(num: number): void {
-    this.cell.draftValues.delete(num);
+    if (this.cell.draftValues.has(num)) {
+      this.cell.draftValues.delete(num);
+    } else {
+      this.cell.draftValues.add(num);
+    }
   }
 }
 
@@ -44,12 +49,12 @@ export class CellStateDefinitive implements ICellState {
     this.cell = cell;
   }
 
-  addNumber(num: number): void {
-    this.cell.value = num;
-  }
-
-  removeNumber(num: number): void {
-    this.cell.value = 0;
+  setCell(num: number): void {
+    if (this.cell.value === num) {
+      this.cell.value = 0;
+    } else {
+      this.cell.value = num;
+    }
   }
 }
 
@@ -57,33 +62,42 @@ export class Cell implements PuzzleItem, CellInfo {
   x: number;
   y: number;
   value: number;
-  state: ICellState = new CellStateDraft(this);
+  protected state: ICellState = new CellStateDraft(this);
+  private currentState: CellState = CellState.DRAFT;
   draftValues: Set<number>;
+  boxNr: number;
 
-  constructor(x: number, y: number, value: number = 0) {
+  constructor(x: number, y: number, value: number = 0, boxNr = 0) {
     this.x = x;
     this.y = y;
     this.value = value;
     this.draftValues = new Set<number>();
+    this.boxNr = 0;
   }
 
   setCell(x: number, y: number, value: number) {
     if (!(this.x === x && this.y === y)) return;
 
-    this.value = value;
+    this.state.setCell(value);
   }
 
   changeCellState(state: CellState) {
     if (state === CellState.DRAFT) {
       this.state = new CellStateDraft(this);
+      this.currentState = CellState.DRAFT;
     } else if (state === CellState.DEFINITIVE) {
       this.state = new CellStateDefinitive(this);
+      this.currentState = CellState.DEFINITIVE;
     }
+  }
+
+  getValues(): number | Set<number> {
+    return this.currentState === CellState.DRAFT ? this.draftValues : this.value;
   }
 }
 
-export class Box implements PuzzleItem {
-  children: PuzzleItem[] = [];
+export class CompositeCells implements PuzzleItem {
+  protected readonly children: PuzzleItem[] = [];
 
   add(child: PuzzleItem): void {
     this.children.push(child);
@@ -101,13 +115,15 @@ export class Box implements PuzzleItem {
     }
   }
 
-  getCell(x: number, y: number): number {
+  getCell(x: number, y: number): Cell | undefined {
     for (let child of this.children) {
       const cell = child.getCell(x, y);
-      if (cell !== -1) return cell;
+      if (cell) return cell;
     }
+  }
 
-    return -1;
+  getBox(index: number): PuzzleItem {
+    return this.children[index];
   }
 
   changeCellState(state: CellState) {
