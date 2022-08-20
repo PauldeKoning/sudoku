@@ -17,4 +17,8 @@ export class NinexNinePuzzle implements Puzzle {
   getBounds(): [number, number] {
     return [9, 9];
   }
+
+  getNumRange(): number {
+    return 9;
+  }
 }

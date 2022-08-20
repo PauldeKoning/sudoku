@@ -17,4 +17,8 @@ export class FourxFourPuzzle implements Puzzle {
   getBounds(): [number, number] {
     return [4, 4];
   }
+
+  getNumRange(): number {
+    return 4;
+  }
 }

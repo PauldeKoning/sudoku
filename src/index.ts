@@ -6,7 +6,12 @@ console.log('Hello World');
 
 const factory = new PuzzleFactory();
 
-const puzzle: Puzzle = factory.createPuzzle('puzzle.4x4');
+const puzzle: Puzzle = factory.createPuzzle('puzzle3.4x4');
+
+puzzle.getPuzzle().changeCellState(CellState.DEFINITIVE);
+
+
+console.log(puzzle.solve());
 
 const validated = puzzle.getPuzzle().validate();
 
