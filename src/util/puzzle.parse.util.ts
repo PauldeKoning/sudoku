@@ -1,5 +1,6 @@
 import CompositeCells from '../model/cell.composite';
 import Cell from '../model/cell';
+import PuzzleWrapper from '../model/puzzle.wrapper';
 
 export default class PuzzleUtil {
   static parseLinearPuzzle(
@@ -8,14 +9,14 @@ export default class PuzzleUtil {
     boxWidth: number,
     offsetX: number = 0,
     offsetY: number = 0
-  ): CompositeCells {
+  ): PuzzleWrapper {
     if (puzzleString.length % cellAmountPerRow !== 0) {
       throw Error(
         'puzzleString length is incorrect. Should be puzzleString.length % cellAmountPerRow'
       );
     }
 
-    const compositeCells: CompositeCells = new CompositeCells();
+    const wrapper: PuzzleWrapper = new PuzzleWrapper();
 
     for (let i = 0; i < puzzleString.length; i++) {
       const { cellRow, boxPerRow, boxRow, cellColumn, boxColumn } = PuzzleUtil.calculateCellInfo(
@@ -26,8 +27,8 @@ export default class PuzzleUtil {
 
       const boxNumber = boxRow * boxPerRow + boxColumn;
 
-      PuzzleUtil.addCellToCompositeCells(
-        compositeCells,
+      PuzzleUtil.addCellToWrapper(
+        wrapper,
         boxNumber,
         cellColumn + offsetX,
         cellRow + offsetY,
@@ -35,12 +36,12 @@ export default class PuzzleUtil {
       );
     }
 
-    PuzzleUtil.addRowsToBoxes(compositeCells, puzzleString, cellAmountPerRow);
+    PuzzleUtil.addRowsToWrapper(wrapper, puzzleString, cellAmountPerRow);
 
-    return compositeCells;
+    return wrapper;
   }
 
-  static parseJigsawPuzzle(jigsawString: string) {
+  static parseJigsawPuzzle(jigsawString: string): PuzzleWrapper {
     const cells = jigsawString.split('=');
 
     if (cells.length !== 82) {
@@ -50,7 +51,7 @@ export default class PuzzleUtil {
     // Remove first as this is the jigsaw version
     cells.shift();
 
-    const compositeCells: CompositeCells = new CompositeCells();
+    const wrapper: PuzzleWrapper = new PuzzleWrapper();
     let valueString = '';
     cells.forEach((c, i) => {
       if (!(c[0] === String(Number(c[0])) && c[2] === String(Number(c[2])))) {
@@ -64,16 +65,16 @@ export default class PuzzleUtil {
 
       const { cellColumn, cellRow } = PuzzleUtil.calculateCellInfo(i, 9, 3);
 
-      PuzzleUtil.addCellToCompositeCells(compositeCells, subgrid, cellColumn, cellRow, value);
+      PuzzleUtil.addCellToWrapper(wrapper, subgrid, cellColumn, cellRow, value);
     });
 
-    PuzzleUtil.addRowsToBoxes(compositeCells, valueString, 9);
+    PuzzleUtil.addRowsToWrapper(wrapper, valueString, 9);
 
-    return compositeCells;
+    return wrapper;
   }
 
-  private static addRowsToBoxes(
-    compositeCells: CompositeCells,
+  private static addRowsToWrapper(
+    wrapper: PuzzleWrapper,
     str: string,
     cellAmountPerRow: number
   ) {
@@ -83,13 +84,13 @@ export default class PuzzleUtil {
 
       for (let x = 0; x < cellAmountPerRow; x++) {
         const y = Math.floor(i / cellAmountPerRow);
-        const cell = compositeCells.getCell(x, y);
+        const cell = wrapper.getCell(x, y);
         horizontal.add(cell ? cell : new Cell(x, y, Number(str[x + y * cellAmountPerRow])));
         vertical.add(cell ? cell : new Cell(y, x, Number(str[y + x * cellAmountPerRow])));
       }
 
-      compositeCells.add(vertical);
-      compositeCells.add(horizontal);
+      wrapper.add(vertical);
+      wrapper.add(horizontal);
     }
   }
 
@@ -106,18 +107,18 @@ export default class PuzzleUtil {
     };
   }
 
-  private static addCellToCompositeCells(
-    compositeCells: CompositeCells,
+  private static addCellToWrapper(
+    wrapper: PuzzleWrapper,
     boxNumber: number,
     x: number,
     y: number,
     value: number
   ): void {
-    if (!compositeCells.getBox(boxNumber)) compositeCells.add(new CompositeCells());
+    if (!wrapper.getBox(boxNumber)) wrapper.add(new CompositeCells());
 
-    const cell = compositeCells.getCell(x, y);
+    const cell = wrapper.getCell(x, y);
 
-    (compositeCells.getBox(boxNumber) as CompositeCells).add(
+    (wrapper.getBox(boxNumber) as CompositeCells).add(
       cell ? cell : new Cell(x, y, value, boxNumber)
     );
   }

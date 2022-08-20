@@ -1,10 +1,10 @@
 import Puzzle from '../puzzle.interface';
 import PuzzleUtil from '../../util/puzzle.parse.util';
 import PuzzleItem from '../puzzle.item.interface';
-import CompositeCells from '../cell.composite';
+import PuzzleWrapper from '../puzzle.wrapper';
 
 export class JigsawPuzzle implements Puzzle {
-  private readonly puzzle: CompositeCells;
+  private readonly puzzle: PuzzleWrapper;
 
   constructor(jigsawString: string) {
     this.puzzle = PuzzleUtil.parseJigsawPuzzle(jigsawString);
