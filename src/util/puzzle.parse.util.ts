@@ -82,11 +82,13 @@ export default class PuzzleUtil {
       const vertical: CompositeCells = new CompositeCells();
       const horizontal: CompositeCells = new CompositeCells();
 
-      for (let x = 0; x < cellAmountPerRow; x++) {
-        const y = Math.floor(i / cellAmountPerRow);
-        const cell = wrapper.getCell(x, y);
-        horizontal.add(cell ? cell : new Cell(x, y, Number(str[x + y * cellAmountPerRow])));
-        vertical.add(cell ? cell : new Cell(y, x, Number(str[y + x * cellAmountPerRow])));
+      for (let j = 0; j < cellAmountPerRow; j++) {
+        const counter = Math.floor(i / cellAmountPerRow);
+        const horizontalCell = wrapper.getCell(j, counter);
+        const verticalCell = wrapper.getCell(counter, j);
+
+        horizontal.add(horizontalCell ? horizontalCell : new Cell(j, counter, Number(str[j + counter * cellAmountPerRow])));
+        vertical.add(verticalCell ? verticalCell : new Cell(counter, j, Number(str[j + i])));
       }
 
       wrapper.add(vertical);

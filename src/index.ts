@@ -12,10 +12,7 @@ const validated = puzzle.getPuzzle().validate();
 
 puzzle.getPuzzle().changeCellState(CellState.DEFINITIVE);
 
-puzzle.getPuzzle().setCell(0, 0, 1);
-puzzle.getPuzzle().setCell(1, 0, 1);
-puzzle.getPuzzle().setCell(2, 0, 1);
-puzzle.getPuzzle().setCell(3, 0, 1);
+puzzle.getPuzzle().setCell(2, 2, 4);
 
 const validated2 = puzzle.getPuzzle().validate();
 
