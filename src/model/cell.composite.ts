@@ -30,12 +30,15 @@ export default class CompositeCells implements PuzzleItem {
 
   validate(): Cell[] {
     const wrongCells: Cell[] = [];
-    this.children.forEach(c => wrongCells.push(c.validate()[0]));
+    this.children.forEach((c) => wrongCells.push(c.validate()[0]));
 
     for (let i = 1; i < this.children.length + 1; i++) {
-      const cells = wrongCells.filter(c => c.value === i);
+      const cells = wrongCells.filter((c) => c.value === i);
       if (cells.length !== 1) continue;
-      wrongCells.splice(wrongCells.findIndex(c => c.value === i), 1);
+      wrongCells.splice(
+        wrongCells.findIndex((c) => c.value === i),
+        1
+      );
     }
 
     return wrongCells;

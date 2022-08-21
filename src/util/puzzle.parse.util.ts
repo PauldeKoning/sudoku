@@ -9,7 +9,7 @@ export default class PuzzleUtil {
     boxWidth: number,
     offsetX: number = 0,
     offsetY: number = 0,
-    discoveryWrapper?: PuzzleWrapper,
+    discoveryWrapper?: PuzzleWrapper
   ): PuzzleWrapper {
     if (puzzleString.length % cellAmountPerRow !== 0) {
       throw Error(
@@ -37,7 +37,14 @@ export default class PuzzleUtil {
       );
     }
 
-    PuzzleUtil.addRowsToWrapper(wrapper, puzzleString, cellAmountPerRow, offsetX, offsetY, discoveryWrapper);
+    PuzzleUtil.addRowsToWrapper(
+      wrapper,
+      puzzleString,
+      cellAmountPerRow,
+      offsetX,
+      offsetY,
+      discoveryWrapper
+    );
 
     return wrapper;
   }
@@ -91,11 +98,21 @@ export default class PuzzleUtil {
         // Get cell from already created puzzles (discoveryWrapper)
         // If cell is not found in discoveryWrapper, get cell in current puzzle
         // Otherwise create a new cell as it is not in either puzzle
-        const horizontalCell = discoveryWrapper?.getCell(offsetX + j, offsetY + counter) || wrapper.getCell(offsetX + j, offsetY + counter);
-        const verticalCell = discoveryWrapper?.getCell(offsetX + counter, offsetY + j) || wrapper.getCell(offsetX + counter, offsetY + j);
+        const horizontalCell =
+          discoveryWrapper?.getCell(offsetX + j, offsetY + counter) ||
+          wrapper.getCell(offsetX + j, offsetY + counter);
+        const verticalCell =
+          discoveryWrapper?.getCell(offsetX + counter, offsetY + j) ||
+          wrapper.getCell(offsetX + counter, offsetY + j);
 
-        horizontal.add(horizontalCell ? horizontalCell : new Cell(offsetX + j, offsetY + counter, Number(str[j + counter * cellAmountPerRow])));
-        vertical.add(verticalCell ? verticalCell : new Cell(offsetX + counter, offsetY + j, Number(str[j + i])));
+        horizontal.add(
+          horizontalCell
+            ? horizontalCell
+            : new Cell(offsetX + j, offsetY + counter, Number(str[j + counter * cellAmountPerRow]))
+        );
+        vertical.add(
+          verticalCell ? verticalCell : new Cell(offsetX + counter, offsetY + j, Number(str[j + i]))
+        );
       }
 
       wrapper.add(vertical);
