@@ -1,9 +1,9 @@
-import Cell from "../../src/model/cell";
-import { CellState } from "../../src/model/cell.state.enum";
-import PuzzleWrapper from "../../src/model/puzzle.wrapper";
+import Cell from '../../src/model/cell';
+import { CellState } from '../../src/model/cell.state.enum';
+import PuzzleWrapper from '../../src/model/puzzle.wrapper';
 
-describe("Test puzzle wrapper", () => {
-  it("Should be able to set a cell", () => {
+describe('Test puzzle wrapper', () => {
+  it('Should be able to set a cell', () => {
     const cell = new Cell(5, 5);
 
     const composite = new PuzzleWrapper();
@@ -16,7 +16,7 @@ describe("Test puzzle wrapper", () => {
     expect(cell.value).toBe(3);
   });
 
-  it("Should not return a cell if x and y do not exist", () => {
+  it('Should not return a cell if x and y do not exist', () => {
     const cell = new Cell(5, 5);
 
     const composite = new PuzzleWrapper();
@@ -28,7 +28,7 @@ describe("Test puzzle wrapper", () => {
     expect(getCell).toBeUndefined();
   });
 
-  it("Should be able to change the cell state of all children", () => {
+  it('Should be able to change the cell state of all children', () => {
     const cell1 = new Cell(4, 2);
     const cell2 = new Cell(5, 3);
 
@@ -46,7 +46,7 @@ describe("Test puzzle wrapper", () => {
     expect(cell2.value).toBe(5);
   });
 
-  it("Should be able to remove a cell", () => {
+  it('Should be able to remove a cell', () => {
     const cell = new Cell(5, 5);
 
     const composite = new PuzzleWrapper();

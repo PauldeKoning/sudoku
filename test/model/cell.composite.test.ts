@@ -2,8 +2,8 @@ import Cell from '../../src/model/cell';
 import CompositeCells from '../../src/model/cell.composite';
 import { CellState } from '../../src/model/cell.state.enum';
 
-describe("Cell composite tests", () => {
-  it("Should be able to set a cell", () => {
+describe('Cell composite tests', () => {
+  it('Should be able to set a cell', () => {
     const cell = new Cell(5, 5);
 
     const composite = new CompositeCells();
@@ -16,7 +16,7 @@ describe("Cell composite tests", () => {
     expect(cell.value).toBe(3);
   });
 
-  it("Should not return a cell if x and y do not exist", () => {
+  it('Should not return a cell if x and y do not exist', () => {
     const cell = new Cell(5, 5);
 
     const composite = new CompositeCells();
@@ -28,7 +28,7 @@ describe("Cell composite tests", () => {
     expect(getCell).toBeUndefined();
   });
 
-  it("Should be able to change the cell state of all children", () => {
+  it('Should be able to change the cell state of all children', () => {
     const cell1 = new Cell(4, 2);
     const cell2 = new Cell(5, 3);
 
@@ -46,16 +46,16 @@ describe("Cell composite tests", () => {
     expect(cell2.value).toBe(5);
   });
 
-  it("Should be able to remove a cell", () => {
-      const cell = new Cell(5, 5);
+  it('Should be able to remove a cell', () => {
+    const cell = new Cell(5, 5);
 
-      const composite = new CompositeCells();
+    const composite = new CompositeCells();
 
-      composite.add(cell);
-      composite.remove(cell);
+    composite.add(cell);
+    composite.remove(cell);
 
-      composite.setCell(5, 5, 4);
+    composite.setCell(5, 5, 4);
 
-      expect(cell.draftValues.has(4)).toBeFalsy();
+    expect(cell.draftValues.has(4)).toBeFalsy();
   });
 });
