@@ -3,7 +3,6 @@ import Cell from './cell';
 import { CellState } from './cell.state.enum';
 
 export default class PuzzleWrapper implements PuzzleItem {
-
   protected readonly children: PuzzleItem[] = [];
 
   add(child: PuzzleItem): void {
@@ -36,14 +35,13 @@ export default class PuzzleWrapper implements PuzzleItem {
   validate(): Cell[] {
     let wrongCells: Set<Cell> = new Set<Cell>();
 
-    this.children.forEach(c => {
+    this.children.forEach((c) => {
       const cells = c.validate();
-      cells.forEach(cell => {
-        if (!wrongCells.has(cell)) wrongCells.add(cell)
+      cells.forEach((cell) => {
+        if (!wrongCells.has(cell)) wrongCells.add(cell);
       });
     });
 
     return Array.from(wrongCells.values());
   }
-
 }
