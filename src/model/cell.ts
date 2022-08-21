@@ -1,11 +1,10 @@
-import ICell from './cell.interface';
 import PuzzleItem from './puzzle.item.interface';
 import ICellState from './state/cell.state.interface';
 import CellStateDraft from './state/cell.state.draft';
 import { CellState } from './cell.state.enum';
 import CellStateDefinitive from './state/cell.state.definitive';
 
-export default class Cell implements PuzzleItem, ICell {
+export default class Cell implements PuzzleItem {
   x: number;
   y: number;
   value: number;
