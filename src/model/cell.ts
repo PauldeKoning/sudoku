@@ -49,9 +49,6 @@ export default class Cell implements PuzzleItem, ICell {
   }
 
   validate(): Cell[] {
-    if (this.value === 0) {
-      return [this];
-    }
-    return [];
+    return [this];
   }
 }

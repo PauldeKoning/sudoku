@@ -2,7 +2,8 @@ import PuzzleItem from './puzzle.item.interface';
 import Cell from './cell';
 import { CellState } from './cell.state.enum';
 
-export default class CompositeCells implements PuzzleItem {
+export default class PuzzleWrapper implements PuzzleItem {
+
   protected readonly children: PuzzleItem[] = [];
 
   add(child: PuzzleItem): void {
@@ -11,6 +12,10 @@ export default class CompositeCells implements PuzzleItem {
 
   remove(child: PuzzleItem): void {
     this.children.splice(this.children.indexOf(child), 1);
+  }
+
+  changeCellState(state: CellState) {
+    this.children.forEach((c) => c.changeCellState(state));
   }
 
   setCell(x: number, y: number, value: number): void {
@@ -24,20 +29,21 @@ export default class CompositeCells implements PuzzleItem {
     }
   }
 
-  changeCellState(state: CellState) {
-    this.children.forEach((c) => c.changeCellState(state));
+  getBox(index: number): PuzzleItem {
+    return this.children[index];
   }
 
   validate(): Cell[] {
-    const wrongCells: Cell[] = [];
-    this.children.forEach(c => wrongCells.push(c.validate()[0]));
+    let wrongCells: Set<Cell> = new Set<Cell>();
 
-    for (let i = 1; i < this.children.length + 1; i++) {
-      const cells = wrongCells.filter(c => c.value === i);
-      if (cells.length !== 1) continue;
-      wrongCells.splice(wrongCells.findIndex(c => c.value === i), 1);
-    }
+    this.children.forEach(c => {
+      const cells = c.validate();
+      cells.forEach(cell => {
+        if (!wrongCells.has(cell)) wrongCells.add(cell)
+      });
+    });
 
-    return wrongCells;
+    return Array.from(wrongCells.values());
   }
+
 }

@@ -1,14 +1,16 @@
 import PuzzleUtil from '../../util/puzzle.parse.util';
-import CompositeCells from '../cell.composite';
 import PuzzleItem from '../puzzle.item.interface';
 import Puzzle from '../puzzle.interface';
+import PuzzleWrapper from '../puzzle.wrapper';
+import Cell from '../cell';
 
-export class SamuraiPuzzle implements Puzzle {
-  private readonly puzzle: CompositeCells;
+export class SamuraiPuzzle extends Puzzle {
+  private readonly puzzle: PuzzleWrapper;
   private offsetKeysX: Map<number, number>;
   private offsetKeysY: Map<number, number>;
 
   constructor(samuraiString: string) {
+    super();
     const puzzleStrings = samuraiString.split(/\r?\n/);
 
     this.offsetKeysX = new Map<number, number>([
@@ -27,10 +29,11 @@ export class SamuraiPuzzle implements Puzzle {
       [4, 12]
     ]);
 
-    const puzzle = new CompositeCells();
+    const puzzle = new PuzzleWrapper();
     puzzleStrings
-      .map((p, i) => PuzzleUtil.parseLinearPuzzle(p, 9, 3, this.getOffsetX(i), this.getOffsetY(i)))
-      .forEach((p) => puzzle.add(p));
+      .forEach((p, i) => {
+        puzzle.add(PuzzleUtil.parseLinearPuzzle(p, 9, 3, this.getOffsetX(i), this.getOffsetY(i), puzzle));
+      });
 
     this.puzzle = puzzle;
   }
@@ -54,5 +57,9 @@ export class SamuraiPuzzle implements Puzzle {
 
   getBounds(): [number, number] {
     return [21, 21];
+  }
+
+  getNumRange(): number {
+    return 9;
   }
 }
