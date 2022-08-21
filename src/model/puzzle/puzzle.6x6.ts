@@ -1,4 +1,4 @@
-import Puzzle from '../puzzle.interface';
+import Puzzle from '../puzzle.abstract';
 import PuzzleItem from '../puzzle.item.interface';
 import PuzzleUtil from '../../util/puzzle.parse.util';
 import PuzzleWrapper from '../puzzle.wrapper';

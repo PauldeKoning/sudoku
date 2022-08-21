@@ -1,8 +1,7 @@
 import PuzzleUtil from '../../util/puzzle.parse.util';
 import PuzzleItem from '../puzzle.item.interface';
-import Puzzle from '../puzzle.interface';
+import Puzzle from '../puzzle.abstract';
 import PuzzleWrapper from '../puzzle.wrapper';
-import Cell from '../cell';
 
 export class SamuraiPuzzle extends Puzzle {
   private readonly puzzle: PuzzleWrapper;
@@ -30,10 +29,11 @@ export class SamuraiPuzzle extends Puzzle {
     ]);
 
     const puzzle = new PuzzleWrapper();
-    puzzleStrings
-      .forEach((p, i) => {
-        puzzle.add(PuzzleUtil.parseLinearPuzzle(p, 9, 3, this.getOffsetX(i), this.getOffsetY(i), puzzle));
-      });
+    puzzleStrings.forEach((p, i) => {
+      puzzle.add(
+        PuzzleUtil.parseLinearPuzzle(p, 9, 3, this.getOffsetX(i), this.getOffsetY(i), puzzle)
+      );
+    });
 
     this.puzzle = puzzle;
   }
