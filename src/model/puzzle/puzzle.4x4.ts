@@ -1,10 +1,9 @@
 import Puzzle from '../puzzle.abstract';
 import PuzzleItem from '../puzzle.item.interface';
 import PuzzleUtil from '../../util/puzzle.parse.util';
-import PuzzleWrapper from '../puzzle.wrapper';
 
 export class FourxFourPuzzle extends Puzzle {
-  private readonly puzzle: PuzzleWrapper;
+  private readonly puzzle: PuzzleItem;
 
   constructor(puzzleString: string) {
     super();

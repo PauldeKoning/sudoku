@@ -8,10 +8,10 @@ export default class Cell implements PuzzleItem {
   x: number;
   y: number;
   value: number;
-  protected state: ICellState = new CellStateDraft(this);
-  private currentState: CellState = CellState.DRAFT;
   draftValues: Set<number>;
   boxNr: number;
+  protected state: ICellState = new CellStateDraft(this);
+  private currentState: CellState = CellState.DRAFT;
 
   constructor(x: number, y: number, value: number = 0, boxNr = 0) {
     this.x = x;

@@ -3,7 +3,9 @@ import Cell from './cell';
 
 export default abstract class Puzzle {
   abstract getPuzzle(): PuzzleItem;
+
   abstract getBounds(): [number, number];
+
   abstract getNumRange(): number;
 
   solve(): boolean {

@@ -4,7 +4,7 @@ import Puzzle from '../puzzle.abstract';
 import PuzzleWrapper from '../puzzle.wrapper';
 
 export class SamuraiPuzzle extends Puzzle {
-  private readonly puzzle: PuzzleWrapper;
+  private readonly puzzle: PuzzleItem;
   private offsetKeysX: Map<number, number>;
   private offsetKeysY: Map<number, number>;
 
@@ -38,6 +38,18 @@ export class SamuraiPuzzle extends Puzzle {
     this.puzzle = puzzle;
   }
 
+  getPuzzle(): PuzzleItem {
+    return this.puzzle;
+  }
+
+  getBounds(): [number, number] {
+    return [21, 21];
+  }
+
+  getNumRange(): number {
+    return 9;
+  }
+
   // NOTE about postfix operator usage: https://github.com/microsoft/TypeScript/issues/9619#issuecomment-232490856
   private getOffsetX(i: number): number {
     if (!this.offsetKeysX.has(i)) throw new Error();
@@ -49,17 +61,5 @@ export class SamuraiPuzzle extends Puzzle {
     if (!this.offsetKeysY.has(i)) throw new Error();
 
     return this.offsetKeysY.get(i)!;
-  }
-
-  getPuzzle(): PuzzleItem {
-    return this.puzzle;
-  }
-
-  getBounds(): [number, number] {
-    return [21, 21];
-  }
-
-  getNumRange(): number {
-    return 9;
   }
 }

@@ -1,10 +1,9 @@
 import PuzzleItem from '../puzzle.item.interface';
 import Puzzle from '../puzzle.abstract';
 import PuzzleUtil from '../../util/puzzle.parse.util';
-import PuzzleWrapper from '../puzzle.wrapper';
 
 export class NinexNinePuzzle extends Puzzle {
-  private readonly puzzle: PuzzleWrapper;
+  private readonly puzzle: PuzzleItem;
 
   constructor(puzzleString: string) {
     super();

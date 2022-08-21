@@ -1,10 +1,9 @@
 import Puzzle from '../puzzle.abstract';
 import PuzzleUtil from '../../util/puzzle.parse.util';
 import PuzzleItem from '../puzzle.item.interface';
-import PuzzleWrapper from '../puzzle.wrapper';
 
 export class JigsawPuzzle extends Puzzle {
-  private readonly puzzle: PuzzleWrapper;
+  private readonly puzzle: PuzzleItem;
 
   constructor(jigsawString: string) {
     super();
