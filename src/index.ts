@@ -15,3 +15,4 @@ puzzle.getPuzzle().changeCellState(CellState.DEFINITIVE);
 puzzle.getPuzzle().setCell(2, 2, 4);
 
 const validated2 = puzzle.getPuzzle().validate();
+
